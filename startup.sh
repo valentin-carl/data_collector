@@ -14,4 +14,4 @@ wget https://github.com/valentin-carl/data_collector/archive/refs/heads/main.zip
 unzip main.zip
 
 cd data_collector-main/ && sudo /usr/local/go/bin/go build
-sudo ./data_collector # TODO test this line, rest works
+sudo ./data_collector > /var/log/data_collector.log 2>&1 &
