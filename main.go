@@ -21,7 +21,8 @@ assuming request structure
 {
   "tableName": "test_table_1234    // to differentiate measurement runs
   "timestamp": 1234, 			   // unix milli
-  "totalWorkflowDuration": 12.34   // in milliseconds
+  "totalWorkflowDuration": 1234   // in milliseconds
+  "totalExecutionDuration": 876   // in milliseconds
 }
 */
 
@@ -53,9 +54,10 @@ func handle(err error) {
 }
 
 type Measurement struct {
-	TableName             string  `json:"tableName"`
-	Timestamp             uint64  `json:"timestamp"`
-	TotalWorkflowDuration float64 `json:"totalWorkflowDuration"`
+	TableName              string `json:"tableName"`
+	Timestamp              uint64 `json:"timestamp"`
+	TotalWorkflowDuration  uint64 `json:"totalWorkflowDuration"`
+	TotalExecutionDuration uint64 `json:"totalExecutionDuration"`
 }
 
 func serve(address string, dbc *sql.Conn) error {
@@ -82,7 +84,7 @@ func serve(address string, dbc *sql.Conn) error {
 		err = create(dbc, m.TableName)
 		e(err, http.StatusInternalServerError, w)
 
-		rA, err := insertMeasurement(dbc, m.TableName, m.Timestamp, m.TotalWorkflowDuration)
+		rA, err := insertMeasurement(dbc, m.TableName, m.Timestamp, m.TotalWorkflowDuration, m.TotalExecutionDuration)
 		e(err, http.StatusInternalServerError, w)
 		log.Printf("rows affected: %d", rA)
 
