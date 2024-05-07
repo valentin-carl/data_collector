@@ -26,7 +26,7 @@ func insertMeasurement(dbc *sql.Conn, tableName string, timeStamp uint64, totalW
 
 	query := fmt.Sprintf(`
 INSERT INTO %s (timestamp, total_workflow_duration, total_execution_duration) 
-VALUES (%d, %f, %f);`, tableName, timeStamp, totalWorkflowDuration, totalExecutionDuration)
+VALUES (%d, %d, %d);`, tableName, timeStamp, totalWorkflowDuration, totalExecutionDuration)
 
 	log.Printf("insert query: '%s'", query)
 	res, err := dbc.ExecContext(context.Background(), query)
